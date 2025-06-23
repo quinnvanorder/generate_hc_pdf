@@ -34,7 +34,7 @@ def scrape_recipe(url):
             raw = urls[-1]
             match = re.search(r"(https://[^/]*homechef\.com/)(?:cdn-cgi/image/[^/]+)?(/uploads/.*)", raw)
             if match:
-                best_img_url = match.group(1) + match.group(2)
+                best_img_url = match.group(1).rstrip('/') + match.group(2)
     result["main_image_url"] = best_img_url
 
     # --- Prep & Cook Time ---
