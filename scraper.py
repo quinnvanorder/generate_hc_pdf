@@ -149,4 +149,38 @@ def scrape_recipe(url):
             "body": step_body
         })
 
+    # --- Nutrition Info ---
+    result["nutrition"] = {}
+    hash_div = soup.find('div', id='nutrition-facts-panel')
+    if hash_div and hash_div.has_attr('data-meal-hash-id'):
+        meal_hash = hash_div['data-meal-hash-id']
+        nutrition_url = f"https://www.homechef.com/api/v2/nutritional_facts/{meal_hash}"
+        try:
+            resp = requests.get(
+                nutrition_url,
+                headers={
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+                    "Accept": "application/json"
+                },
+                timeout=10
+            )
+
+            if resp.ok:
+                nutrition_json = resp.json()
+                facts = nutrition_json.get("nutrition_facts", {})
+
+                result["nutrition"] = {
+                    "unit_name": nutrition_json.get("unit_name"),
+                    "menu_category_for_meal": nutrition_json.get("menu_category_for_meal"),
+                    "serving_size": nutrition_json.get("serving_size"),
+                    "serving_size_grams": facts.get("serving_size_net_weight"),
+                    "ingredients": nutrition_json.get("ingredients", []),
+                    "allergens": nutrition_json.get("allergens", []),
+                    "as_prepared": facts.get("daily_value_as_prepared", {}),
+                    "percent_as_prepared": facts.get("daily_percent_as_prepared", {}),
+                }
+
+        except Exception as e:
+            result["nutrition_error"] = f"Failed to fetch: {str(e)}"
+
     return result

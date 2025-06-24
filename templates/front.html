@@ -13,100 +13,129 @@
       height: 11in;
       box-sizing: border-box;
     }
+
     .container {
-      padding: 0.5in 0.65in;
+      padding: 0 0.65in; /* Removed top padding to reduce whitespace */
     }
+
     .header {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       gap: 1em;
+      margin-bottom: 0; /* <— Changed from 0.25em to 0 */
+      padding-bottom: 0;  /* <— Ensure no inner spacing */
     }
+
     .logo {
       width: 100px;
       height: auto;
       margin-bottom: 0;
     }
+
     .logo svg {
       width: 100%;
       height: auto;
     }
+
     .divider {
       border-left: 2px dotted #ccc;
       height: 60px;
-      margin: 0 1em;
+      margin: 0 0.1em;
     }
+
     .title-section {
       flex-grow: 1;
       text-align: left;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding-bottom: 0.25em;
+      padding-bottom: 0; /* Removed extra space below titles */
     }
+
     .title-section h1 {
       margin: 0;
       font-size: 1.5em;
+      line-height: 1.1em;
     }
+
     .title-section h2 {
       margin: 0;
       font-size: 1em;
       color: #666;
       text-transform: uppercase;
+      line-height: 1.2em;
     }
+
     .recipe-type {
-      padding: 0.5em 1em;
+      padding: 0.4em 1em;
       border-radius: 8px 8px 0 0;
       color: white;
       font-weight: bold;
-      background-color: {{ recipe_type_colors.get(recipe.recipe_type, '#2f855a') }};
       align-self: flex-end;
+      margin-bottom: 0; /* <— Prevents bottom push */
+      line-height: 1;    /* <— Optional: tightens text height */
     }
+
+
     .main-image {
       width: 100%;
       height: auto;
-      margin: 0.5em 0 0;
+      margin: 0; /* Removed margin to tuck it under the header */
       object-fit: cover;
+      display: block;
+      border-radius: 12px 0 12px 12px;
     }
+
     .info-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 1em;
+      margin-top: 1em;
     }
+
     .info-box {
       flex: 1 1 40%;
     }
+
     .info-box h4 {
       margin-bottom: 0.25em;
       color: #666;
       font-weight: normal;
     }
+
     .info-box p {
       margin: 0;
       font-weight: bold;
     }
+
     .ingredients-box {
       margin-top: 1em;
       display: flex;
       justify-content: space-between;
     }
+
     .ingredients-box div {
       width: 48%;
     }
+
     .temp-table {
       width: 100%;
       margin-top: 1.5em;
       border-collapse: collapse;
     }
+
     .temp-table th, .temp-table td {
       border: 1px solid #ccc;
       padding: 0.5em;
       text-align: center;
     }
+
     .temp-table th {
       background: #f4f4f4;
     }
   </style>
+
 </head>
 <body>
   <div class="container">
@@ -119,7 +148,10 @@
         <h1>{{ recipe.title1 }}</h1>
         <h2>{{ recipe.title2 }}</h2>
       </div>
-      <div class="recipe-type">{{ recipe.recipe_type }}</div>
+      <div class="recipe-type" style="background-color: {{ recipe_type_colors.get(recipe.recipe_type, '#2f855a') }};">
+        {{ recipe.recipe_type }}
+      </div>
+
     </div>
 
     <img class="main-image" src="{{ recipe.main_image_url }}" alt="Recipe image">

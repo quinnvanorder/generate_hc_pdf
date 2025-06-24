@@ -21,7 +21,7 @@ def main():
         "Oven-Ready": "#d69e2e"
     }
 
-    #print(json.dumps(recipe_data, indent=2))
+    print(json.dumps(recipe_data, indent=2))
     
     render_recipe_to_html(
         recipe_data,
